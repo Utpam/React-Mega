@@ -7,6 +7,7 @@ import authService from '../appwrite/auth'
 import { useForm } from 'react-hook-form'
 import Input from './Input'
 import Button from './button'
+import Logo from './Logo'
 
 export const Login = () => {
     const navigate = useNavigate()
@@ -21,9 +22,9 @@ export const Login = () => {
             if(session) {
                 const userData = await authService.getCurrentUser()
                 if(userData){
-                    dispatch(authLogin(userData))
+                    dispatch(authLogin({userData}))
+                    navigate("/")
                 }
-                navigate("/")
             }
         } catch (error) {
             setError(error.message)

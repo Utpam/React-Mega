@@ -9,8 +9,11 @@ function Home() {
     useEffect(() => {
         service.getPosts()
             .then((post) => {
-                if(post) {
-                    setPosts(post)
+                if(post && post.rows && post.rows.length > 0) {
+                    setPosts(post.rows)
+                }
+                else {
+                    setPosts([])
                 }
             })
     },[])
@@ -30,7 +33,7 @@ function Home() {
             </div>
         )
     }
-    
+    else{
     return (
         <div className='w-full py-8'>
             <Container>
@@ -44,10 +47,7 @@ function Home() {
             </Container>
         </div>
     )
-
-  return (
-    <div>Home</div>
-  )
+    }
 }
 
 export default Home

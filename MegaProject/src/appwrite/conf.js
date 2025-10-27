@@ -17,23 +17,9 @@ export class Service {
     // Code from CHAI AUR CODE
 
 
-    async createPost({title, slug, content, featuredImage, status, userId}) {
-        try {
-            return await this.databases.createDocument(
-                config.databaseId, config.tableId, slug, {
-                    title, slug, content, featuredImage,status,userId
-                }
-            )
-        } catch (error) {
-            throw error
-        }
-    }
-
-    // Code from DOCUMENTATION APPWRITE
-
     // async createPost({title, slug, content, featuredImage, status, userId}) {
     //     try {
-    //         return await this.databases.createRow(
+    //         return await this.databases.createDocument(
     //             config.databaseId, config.tableId, slug, {
     //                 title, slug, content, featuredImage,status,userId
     //             }
@@ -43,25 +29,28 @@ export class Service {
     //     }
     // }
 
-    // Code from CHAI AUR CODE
+    // Code from DOCUMENTATION APPWRITE
 
-    async updatePost(slug, {title,  content, featuredImage, status}) {
+    async createPost({title, slug, content, featuredImage, status, userId}) {
         try {
-            return await this.databases.updateDocument(
-                config.databaseId, config.tableId, slug, {
-                    title, content, featuredImage, status
+            return await this.databases.createRow({
+                databaseId:  config.databaseId,
+                tableId: config.tableId,
+                rowId: slug,
+                data: {
+                    title, slug, content, featuredImage,status,userId
                 }
-            )
+        })
         } catch (error) {
             throw error
         }
     }
 
-    // Code from DOCUMENTATION APPWRITE
+    // Code from CHAI AUR CODE
 
     // async updatePost(slug, {title,  content, featuredImage, status}) {
     //     try {
-    //         return await this.databases.updateRow(
+    //         return await this.databases.updateDocument(
     //             config.databaseId, config.tableId, slug, {
     //                 title, content, featuredImage, status
     //             }
@@ -71,13 +60,46 @@ export class Service {
     //     }
     // }
 
+    // Code from DOCUMENTATION APPWRITE
+
+    async updatePost(slug, {title,  content, featuredImage, status}) {
+        try {
+            return await this.databases.updateRow({
+                databaseId: config.databaseId,
+                tableId: config.tableId,
+                rowId: slug,
+                content: {
+                    title, content, featuredImage, status
+                }}
+            )
+        } catch (error) {
+            throw error
+        }
+    }
+
     // Code from CHAI AUR CODE
 
+    // async deletePost(slug) {
+    //     try{
+    //         await this.databases.deleteDocument(
+    //             config.databaseId, config.tableId, slug
+    //         )
+    //         return true
+    //     }
+    //     catch (error) {
+    //         console.error('Error')
+    //         return false
+    //     }
+    // }
+
+    // Code from Appwrite DOCS
     async deletePost(slug) {
         try{
-            await this.databases.deleteDocument(
-                config.databaseId, config.tableId, slug
-            )
+            await this.databases.deleteRow({
+                databaseId: config.databaseId,
+                tableId: config.tableId,
+                rowId: slug
+            })
             return true
         }
         catch (error) {
@@ -86,31 +108,50 @@ export class Service {
         }
     }
 
+    // Code from Appwrite DOCS
+
     async getPost(slug) {
         try {
-            return await this.databases.getDocument(config.databaseId, config.tableId, slug)
+            return await this.databases.getRow({
+                databaseId: config.databaseId,
+                tableId: config.tableId,
+                rowId: slug
+            })
         } catch (error) {
             return false
         }
     }
 
+    // async getPosts(queries = [Query.equal("status", "active")]) {
+    //     try {
+    //         return await this.databases.listDocuments(
+    //             config.databaseId,
+    //             config.tableId,
+    //             queries 
+    //         )
+    //     } catch (error) {
+    //         return false
+    //     }
+    // }
     async getPosts(queries = [Query.equal("status", "active")]) {
         try {
-            return await this.databases.listDocuments(
-                config.databaseId,
-                config.tableId,
+            return await this.databases.listRows({
+                databaseId: config.databaseId,
+                tableId: config.tableId,
                 queries 
-            )
+            })
         } catch (error) {
             return false
         }
     }
 
+
+    
     // File Upload Services
 
     async uploadFile(file) {
         try {
-            return await this.bucket.createFileToken(
+            return await this.bucket.createFile(
                 config.bucketId,
                 ID.unique(),
                 file
@@ -140,6 +181,6 @@ export class Service {
     )}
 }
 
-const service = new Service
+const service = new Service()
 
 export default service

@@ -8,7 +8,7 @@ function AuthLayout({children, authentication = true}) {
 
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
-    const authStatus = useSelector((state) => state.status)
+    const authStatus = useSelector((state) => state.auth.status)
 
     useEffect(() => {
         // TODO MAKE IT MORE EASY
@@ -24,7 +24,7 @@ function AuthLayout({children, authentication = true}) {
   return (
     <>
         {
-            loading ? 'loading...' : {children}
+            loading ? <h1>Loading...</h1> : <>{children}</>
         }
     </>
   )
