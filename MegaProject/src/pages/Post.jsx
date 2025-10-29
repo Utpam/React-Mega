@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import service from '../appwrite/conf'
 import { useSelector } from 'react-redux'
+import PostCard from '../components/PostCard'
+import parse from 'html-react-parser'
+import Container from '../components/container/Container'
+import config from '../config/config'
+import { Link } from 'react-router-dom'
+import { Button } from '../components'
 
 function Post() {
 
@@ -9,13 +15,13 @@ function Post() {
     const {slug} = useParams()
     const navigate = useNavigate()
 
-    const userData = useSelector((state) => state.userData)
+    const userData = useSelector((state) => state.auth.userData)
 
     const isAuthor = post && userData ? post.userId === userData.$id : false
 
     useEffect(() => {
         if(slug){
-            service.getPost()
+            service.getPost(slug)
                 .then((post) => {
                     if(post) {
                         setPost(post)
@@ -44,7 +50,7 @@ function Post() {
             <Container>
                 <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
                     <img
-                        src={appwriteService.getFilePreview(post.featuredImage)}
+                        src={service.getFilePreview(config.bucketId,post.featuredImage)}
                         alt={post.title}
                         className="rounded-xl"
                     />

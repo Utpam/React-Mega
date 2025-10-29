@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import service from '../appwrite/conf'
 import Container from '../components/container/Container'
+import { useSelector } from 'react-redux'
+import PostCard from '../components/PostCard'
 
 function Home() {
-
+    const authStatus = useSelector(state => state.auth.status)
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -16,7 +18,7 @@ function Home() {
                     setPosts([])
                 }
             })
-    },[])
+    },[authStatus])
 
     if(posts.length === 0){
         return (
@@ -25,7 +27,7 @@ function Home() {
                     <div className="flex flex-wrap">
                         <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
-                                Login to read posts
+                                {authStatus ? 'No Posts yet':'Login to read posts'}
                             </h1>
                         </div>
                     </div>

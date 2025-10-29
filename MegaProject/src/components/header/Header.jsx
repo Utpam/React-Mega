@@ -1,14 +1,14 @@
 import React from 'react'
 import authService from '../../appwrite/auth'
 import { logout } from '../../Store/authSlice'
-import Logout_btn from '../index'
+import Logout_btn from './Logout_btn'
 import Container from '../container/Container'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../Logo'
 
-function Header() {
-    const authStatus = useSelector((state) => state.status)
+export const Header = () => {
+    const authStatus = useSelector(state => state.auth.status)
     const navigate = useNavigate()
 
     const navItems = [
@@ -73,4 +73,3 @@ function Header() {
   )
 }
 
-export default Header

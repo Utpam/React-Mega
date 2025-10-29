@@ -1,4 +1,4 @@
-import Header from "./header/header";
+import {Header} from './header/Header'
 import Footer from "./footer/footer";
 import Container from "./container/Container";
 import Logo from "./Logo";
@@ -12,13 +12,12 @@ export default {
     Container,
     Logo,
     Logout_btn,
-    
 }
 
 export {
     Select,
-    Input,
     Header,
+    Input,
     Footer,
     Button,
 

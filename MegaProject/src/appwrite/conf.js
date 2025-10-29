@@ -9,7 +9,8 @@ export class Service {
     constructor() {
         this.client
             .setEndpoint(config.appwriteUrl)
-            .setProject(config.projectId);
+            .setProject(config.projectId)
+            // .setKey(config.rteApiKey);
         this.databases = new TablesDB(this.client)
         this.bucket = new Storage(this.client)
     }
@@ -175,10 +176,10 @@ export class Service {
     }
 
     getFilePreview(fileId) {
-        return this.bucket.getFilePreview(
-            config.bucketId,
-            fileId
-    )}
+        return this.bucket.getFilePreview({
+            bucketId: config.bucketId,
+            fileId: fileId
+        })}
 }
 
 const service = new Service()
